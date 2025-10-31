@@ -1,0 +1,47 @@
+<html>
+<head>
+    <title>Nation DB</title>
+</head>
+<body>
+    <h2>Tables in Database</h2>
+
+    <form method="get" action="/">
+        <input type="text" name="keyword" placeholder="Search entire DB..." value="{{keyword}}">
+        <input type="submit" value="Search">
+        {% if keyword %}
+            <a href="/">Reset</a>
+        {% endif %}
+    </form>
+
+    <ul>
+        {% for t in tables %}
+            <li><a href="/view_table?table={{t}}">{{t}}</a></li>
+        {% endfor %}
+    </ul>
+
+    {% if keyword %}
+        <h3>Search Results for '{{keyword}}'</h3>
+        {% for t, df in search_results.items() %}
+            <h4>Table: {{t}} ({{df.shape[0]}} rows)</h4>
+            <table border="1">
+                <thead>
+                    <tr>
+                        {% for col in df.columns %}
+                            <th>{{col}}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in df.values.tolist() %}
+                        <tr>
+                            {% for item in row %}
+                                <td>{{item}}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

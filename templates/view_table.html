@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>{{table}} - Data</title>
+</head>
+<body>
+    <h2>Table: {{table}}</h2>
+
+    <form method="get" action="/view_table">
+        <input type="hidden" name="table" value="{{table}}">
+        <input type="text" name="keyword" placeholder="Search in table..." value="{{keyword}}">
+        <input type="submit" value="Search">
+        {% if keyword %}
+            <a href="/view_table?table={{table}}">Reset</a>
+        {% endif %}
+    </form>
+
+    <table border="1">
+        <thead>
+            <tr>
+                {% for c in columns %}
+                    <th>{{c}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in df %}
+            <tr>
+                {% for item in row %}
+                    <td>{{item}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/">Back to Tables</a>
+</body>
+</html>
